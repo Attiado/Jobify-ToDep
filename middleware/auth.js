@@ -2,7 +2,6 @@
 import jwt from "jsonwebtoken";
 import UnAuthenticatedError from "../errors/unauthenticated.js";
 
-const auth = async (req,res,next) =>{
    // const headers = req.headers
    /* remove
     const authHeader = req.headers.authorization
@@ -14,21 +13,19 @@ const auth = async (req,res,next) =>{
     */
     //Everything goes correct
     //Get the token
-
-    const token = req.cookies.token; 
-    console.log(token);
-    if(!token) {
-        throw new UnAuthenticatedError('Authentication Invalid')
-    }
-
-    try {
-        const payload = jwt.verify(token,process.env.JWT_SECRET)
-        console.log(payload);
-        req.user = {userId : payload.userId} 
-        next(); 
-    } catch (error) {
-        throw new UnAuthenticatedError('Authentication Invalid , Please Check Your Token !')
-    }
-}
-
-export default auth
+    const auth = async (req, res, next) => {
+        const token = req.cookies.token;
+        if (!token) {
+          throw new UnAuthenticatedError('Authentication Invalid');
+        }
+        try {
+          const payload = jwt.verify(token, process.env.JWT_SECRET);
+          const testUser = payload.userId === '63628d5d178e918562ef9ce8';
+          req.user = { userId: payload.userId, testUser };
+          next();
+        } catch (error) {
+          throw new UnAuthenticatedError('Authentication Invalid');
+        }
+      };
+      
+      export default auth;

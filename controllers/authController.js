@@ -32,7 +32,7 @@ const login = async (req, res) => {
   if (!user) {
     throw new UnAuthenticatedError("Invalid Credentials");
   }
-  console.log(user);
+  //console.log(user);
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
     throw new UnAuthenticatedError("Invalid Credentials , pass is incorrect");
@@ -66,12 +66,17 @@ const updateUser = async (req, res) => {
     console.log(`The  token " ${token}`);
     res.status(StatusCodes.OK).json({ user, location: user.location });
   } catch (error) {
-    console.log("error while updae user");
+    console.log("error while update user");
   }
 };
+
+const getCurrentUser = async (req, res) => {
+    const user = await User.findOne({ _id: req.user.userId });
+    res.status(StatusCodes.OK).json({ user, location: user.location });
+  };
 
 const getAllUsers = async (req, res) => {
   res.send(`all users:${res.body}`);
 };
 
-export { register, login, updateUser, getAllUsers };
+export { register, login, updateUser, getAllUsers , getCurrentUser};
