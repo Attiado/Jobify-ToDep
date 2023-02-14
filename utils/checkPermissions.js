@@ -1,10 +1,9 @@
-import UnAuthenticatedError from '../errors/unauthenticated.js'
-const checkPermissions = (requestUser,resourceUserId) => {
- 
+import { UnAuthenticatedError } from '../errors/index.js'
 
-    if (requestUser.userId === resourceUserId.toString())
-        return 
-        throw new UnAuthenticatedError('Not authorized to access this route ( editing )')
-    
+const checkPermissions = (requestUser, resourceUserId) => {
+  if (requestUser.userId === resourceUserId.toString()) return
+
+  throw new UnAuthenticatedError('Not authorized to access this route')
 }
+
 export default checkPermissions

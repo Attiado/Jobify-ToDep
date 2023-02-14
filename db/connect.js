@@ -1,13 +1,6 @@
 import mongoose from 'mongoose'
 
-
-const connectDB = (url) =>{
-    try {
-        return mongoose.connect(url)
-        
-    } catch (error) {
-        console.log("error")
-    }
+const connectDB = (url) => {
+  return mongoose.connect(url)
 }
-
 export default connectDB
